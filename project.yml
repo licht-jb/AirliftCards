@@ -1,0 +1,40 @@
+name: AirliftCards
+options:
+  bundleIdPrefix: dev.airlift
+  developmentLanguage: ja
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    SWIFT_EMIT_LOC_STRINGS: YES
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_APP_SANDBOX: NO
+    ENABLE_HARDENED_RUNTIME: NO
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGNING_REQUIRED: NO
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: Airlift Cards
+    PRODUCT_NAME: Airlift Cards
+targets:
+  AirliftCards:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.airlift.cards
+    preBuildScripts:
+      - name: Build and Bundle Backend
+        basedOnDependencyAnalysis: false
+        script: |
+          set -eu
+          cd "$SRCROOT"
+          make backend
+          BACKEND="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Backend"
+          rm -rf "$BACKEND"
+          mkdir -p "$BACKEND/Sources" "$BACKEND/build"
+          cp Backend/cards.py Backend/airlift.py "$BACKEND/"
+          cp Backend/Sources/airlift_target.h "$BACKEND/Sources/"
+          cp Backend/build/device_helper Backend/build/airtraffic_host "$BACKEND/build/"

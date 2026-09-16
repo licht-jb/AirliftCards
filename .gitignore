@@ -1,0 +1,12 @@
+build/
+Backend/build/
+__pycache__/
+*.pyc
+.DS_Store
+AirliftCards.xcodeproj/
+.env
+.env.*
+!.env.example
+DerivedData/
+*.xcuserstate
+.swiftpm/
