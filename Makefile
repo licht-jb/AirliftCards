@@ -3,8 +3,11 @@ CFLAGS := -fobjc-arc -O2 -Wall -Wextra
 FOUNDATION := -framework Foundation -framework CoreFoundation
 MOBILEDEVICE := /System/Library/PrivateFrameworks/MobileDevice.framework/MobileDevice
 AIRTRAFFIC := /System/Library/PrivateFrameworks/AirTrafficHost.framework/AirTrafficHost
+VERSION := 1.0.0
+APP := build/Airlift Cards.app
+DMG := dist/Airlift-Cards-$(VERSION).dmg
 
-.PHONY: all app backend clean project
+.PHONY: all app backend clean dmg project
 
 all: app
 
@@ -17,6 +20,9 @@ app: backend project
 		CODE_SIGNING_ALLOWED=NO \
 		build
 
+dmg: app
+	Scripts/create-dmg.sh "$(APP)" "$(DMG)"
+
 backend: Backend/build/device_helper Backend/build/airtraffic_host
 
 project:
@@ -27,11 +33,11 @@ Backend/build:
 
 Backend/build/device_helper: Backend/Sources/device_helper.m Backend/Sources/airlift_target.h | Backend/build
 	$(CLANG) $(CFLAGS) $(FOUNDATION) $(MOBILEDEVICE) $< -o $@
-	codesign --force --sign - $@
+	codesign --force --options runtime --sign - $@
 
 Backend/build/airtraffic_host: Backend/Sources/airtraffic_host.m | Backend/build
 	$(CLANG) $(CFLAGS) $(FOUNDATION) $(AIRTRAFFIC) $< -o $@
-	codesign --force --sign - $@
+	codesign --force --options runtime --sign - $@
 
 clean:
-	rm -rf build Backend/build AirliftCards.xcodeproj
+	rm -rf build dist Backend/build AirliftCards.xcodeproj

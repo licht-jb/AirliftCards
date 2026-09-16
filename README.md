@@ -1,40 +1,32 @@
 # Airlift Cards
 
-`Airlift Cards` is a macOS interface for changing Apple Pay card artwork on a
-paired iPhone. It lists connected devices and copies only payment-card metadata,
-artwork, and generated thumbnails. Boarding passes, tickets, and other passes
-are excluded.
+A macOS app for replacing and restoring Apple Pay card artwork on a paired
+iPhone using images or PDFs.
 
-The first artwork seen before replacement is saved under
-`~/Library/Application Support/Airlift Cards/Backups`. The restore action uses
-that saved original. Images and the first page of PDFs are center-cropped to the
-selected card's native artwork size.
+## Install
 
-The `Backend` directory contains copies of the shared Airlift implementation and
-native helper sources so this project builds independently from the original
-repository.
+Download the DMG from the [latest release](https://github.com/licht-jb/AirliftCards/releases/latest)
+and drag `Airlift Cards` to the Applications folder.
 
 ## Build
 
-XcodeGen, Xcode 27, and Pillow for `/usr/bin/python3` are required.
+Building requires macOS 27, Xcode 27, XcodeGen, and Pillow for
+`/usr/bin/python3`.
 
 ```sh
 make app
 open "build/Airlift Cards.app"
 ```
 
-## Acknowledgements
+## Runtime requirements
 
-Airlift Cards is built on [airlift](https://github.com/0xjohnnydev/airlift),
-the AirTraffic/ATAirlock research and implementation by
-[Johnny Franks (@0xjohnnydev)](https://github.com/0xjohnnydev). Airlift provides
-the paired-Mac file access and native helper foundation used by this app.
-Airlift Cards adds the macOS interface and the card-artwork workflow on top of
-that work. Many thanks to Johnny Franks for publishing the original research
-and code.
+- macOS 14 or later on Apple silicon
+- A paired iPhone on a supported iOS build
 
-## License
+## License and credits
 
-Airlift Cards is available under the [MIT License](LICENSE). The copied Airlift
-components remain copyright © 2026 Johnny Franks and are used under the
-[original project's MIT License](https://github.com/0xjohnnydev/airlift/blob/main/LICENSE).
+Airlift Cards is available under the [MIT License](LICENSE). It builds on
+[airlift](https://github.com/0xjohnnydev/airlift) by
+[Johnny Franks (@0xjohnnydev)](https://github.com/0xjohnnydev), also released
+under [MIT](https://github.com/0xjohnnydev/airlift/blob/main/LICENSE); thanks to
+Johnny Franks for making the work public.
